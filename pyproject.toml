@@ -6,7 +6,7 @@ authors = ["kinsoRick <kmasnaveev@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.11.8"
+python = "^3.10"
 PyroTGFork = "^2.1.33.2"
 tgcrypto = "^1.2.5"
 python-dotenv = "^1.0.1"
