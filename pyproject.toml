@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "tassistant"
+version = "0.1.0"
+description = ""
+authors = ["kinsoRick <kmasnaveev@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.8"
+PyroTGFork = "^2.1.33.2"
+tgcrypto = "^1.2.5"
+python-dotenv = "^1.0.1"
+colorlog = "^6.8.2"
+gitpython = "^3.1.43"
+
+[tool.poetry.scripts]
+tassistant = "tassistant.main:run_from_poetry"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
