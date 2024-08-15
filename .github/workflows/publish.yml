@@ -44,9 +44,7 @@ jobs:
       run: |
         poetry build
 
-    - name: Publish package
-      env:
-        POETRY_PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      run: |
-        poetry config pypi-token.pypi $POETRY_PYPI_TOKEN
-        poetry publish --build
+    - name: Build and publish to pypi
+      uses: JRubics/poetry-publish@v2.0
+      with:
+        pypi_token: ${{ secrets.PYPI_TOKEN }}
