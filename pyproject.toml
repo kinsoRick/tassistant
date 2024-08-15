@@ -18,6 +18,7 @@ tassistant = "tassistant-bot.main:run_from_poetry"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
+tox = "^4.18.0"
 
 [build-system]
 requires = ["poetry-core"]

@@ -5,19 +5,19 @@ import inspect
 import git
 import re
 
-from typing import Optional, Dict
+from typing import Optional
 from logging import getLogger
 
 from pyrogram import Client
 
-from tassistant.helpers import I18n, SingletonMeta
-from tassistant.helpers.i18n import get_locales
+from tassistant_bot.helpers import I18n, SingletonMeta
+from tassistant_bot.helpers.i18n import get_locales
 
 logger = getLogger(__name__)
 _ = I18n("ru")
 
 
-def load_module(directory: str, module_name: str) -> importlib.util.ModuleType:
+def load_module(directory: str, module_name: str):
     """
     Loads a Python module from the specified directory.
 
@@ -33,7 +33,7 @@ def load_module(directory: str, module_name: str) -> importlib.util.ModuleType:
     return module
 
 
-def load_directory_modules(directory_path: str) -> Dict[str, importlib.util.ModuleType]:
+def load_directory_modules(directory_path: str):
     """
     Loads all Python modules from the specified directory.
 
@@ -96,6 +96,7 @@ class Module:
         """
         Loads handler modules from the 'handlers' directory and registers them.
         """
+        print(self.handlers)
         handlers_path = os.path.join(self.base_path, "handlers")
         handlers = load_directory_modules(handlers_path)
         for module_name, module in handlers.items():

@@ -5,8 +5,8 @@ import colorlog
 from pyrogram import Client, idle
 import asyncio
 
-from tassistant.helpers import config, I18n
-from tassistant.loader import ModuleLoader
+from tassistant_bot.helpers import config, I18n
+from tassistant_bot.loader import ModuleLoader
 
 
 formatter = colorlog.ColoredFormatter(

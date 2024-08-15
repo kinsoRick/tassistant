@@ -4,7 +4,7 @@ import re
 from typing import Dict, Optional
 from logging import getLogger
 
-from tassistant.helpers import SingletonMeta
+from tassistant_bot.helpers import SingletonMeta
 
 logger = getLogger()
 
