@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tassistant"
+name = "tassistant-bot"
 version = "0.1.0"
 description = ""
 authors = ["kinsoRick <kmasnaveev@gmail.com>"]
@@ -14,7 +14,7 @@ colorlog = "^6.8.2"
 gitpython = "^3.1.43"
 
 [tool.poetry.scripts]
-tassistant = "tassistant.main:run_from_poetry"
+tassistant = "tassistant-bot.main:run_from_poetry"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
