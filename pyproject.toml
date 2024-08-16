@@ -12,9 +12,10 @@ tgcrypto = "^1.2.5"
 python-dotenv = "^1.0.1"
 colorlog = "^6.8.2"
 gitpython = "^3.1.43"
+click = "^8.1.7"
 
 [tool.poetry.scripts]
-tassistant = "tassistant_bot.main:run_from_poetry"
+tassistant = "tassistant_bot.__main__:main"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"

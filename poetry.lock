@@ -34,6 +34,20 @@ files = [
 ]
 
 [[package]]
+name = "click"
+version = "8.1.7"
+description = "Composable command line interface toolkit"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "click-8.1.7-py3-none-any.whl", hash = "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28"},
+    {file = "click-8.1.7.tar.gz", hash = "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"},
+]
+
+[package.dependencies]
+colorama = {version = "*", markers = "platform_system == \"Windows\""}
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 description = "Cross-platform colored terminal text."
@@ -236,13 +250,13 @@ testing = ["covdefaults (>=2.3)", "pytest (>=8.2.2)", "pytest-cov (>=5)", "pytes
 
 [[package]]
 name = "pyrotgfork"
-version = "2.1.33.2"
+version = "2.1.33.3"
 description = "Fork of Pyrogram. Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pyrotgfork-2.1.33.2-py3-none-any.whl", hash = "sha256:5ad7fa8b182b85d3c1bdb2c0f6741245b5ffe544273931d39ee5dacda764584d"},
-    {file = "pyrotgfork-2.1.33.2.tar.gz", hash = "sha256:23203684918378ad49043ce65bde5542232ab54ad73745249406e89e6e3e3eda"},
+    {file = "pyrotgfork-2.1.33.3-py3-none-any.whl", hash = "sha256:5ca982d8763359a22e86348dcb64b5e7c281d93d6234df1280eb57853ea1a5df"},
+    {file = "pyrotgfork-2.1.33.3.tar.gz", hash = "sha256:db80fc229092aa515cb47a223a8c71fa897bf650a4a28ab389881076ecb3034a"},
 ]
 
 [package.dependencies]
@@ -479,4 +493,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "38215b40a47778c1a662de1caa74c819ce5172f9e31f2b6c53e614541fe67af0"
+content-hash = "1cfa6edda0e6aee7a4036c4a43b4c2f6ccb909ec70c6c2093174571b8278a9f3"

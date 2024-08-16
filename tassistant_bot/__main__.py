@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging
 import colorlog
+import click
 
 from pyrogram import Client, idle
 import asyncio
 
 from tassistant_bot.helpers import config, I18n
 from tassistant_bot.loader import ModuleLoader
-
 
 formatter = colorlog.ColoredFormatter(
     "| %(log_color)s%(asctime)s%(reset)s | %(log_color)s%(levelname)s%(reset)s | %(log_color)s%(name)s%(reset)s, "
@@ -21,8 +21,6 @@ formatter = colorlog.ColoredFormatter(
         "ERROR": "red",
         "CRITICAL": "bold_red",
     },
-    secondary_log_colors={},
-    style="%",
 )
 
 log_handler = colorlog.StreamHandler()
@@ -34,6 +32,19 @@ logger.setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.INFO)
 
 
+@click.command()
+@click.option("--api-id", default=None, help="Telegram API ID.")
+@click.option("--api-hash", default=None, help="Telegram API Hash.")
+@click.option("--log-level", default="INFO", help="Logging level.")
+def main(api_id, api_hash, log_level):
+    logger.setLevel(getattr(logging, log_level.upper()))
+
+    config.set("TELEGRAM_API_ID", api_id)
+    config.set("TELEGRAM_API_HASH", api_hash)
+
+    asyncio.run(run_main())
+
+
 async def run_main():
     _ = I18n("ru").get
 
@@ -43,7 +54,6 @@ async def run_main():
         api_hash=config.get("TELEGRAM_API_HASH"),
     )
 
-    # Module loader
     loader = ModuleLoader(client=app, command_prefix=".")
     loader.load_all_modules()
 
@@ -52,9 +62,6 @@ async def run_main():
     await idle()
 
 
-def run_from_poetry():
-    asyncio.run(run_main())
-
-
 if __name__ == "__main__":
-    asyncio.run(run_main())
+    print("as")
+    main()
