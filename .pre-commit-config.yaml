@@ -19,6 +19,6 @@ repos:
     hooks:
       - id: run-unittests
         name: Run unittests
-        entry: python -m unittest discover -p *_test.py
+        entry: python -m unittest discover -p *_test.py -s tests
         language: system
         pass_filenames: false

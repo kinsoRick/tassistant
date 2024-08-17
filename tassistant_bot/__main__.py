@@ -56,18 +56,16 @@ async def run_main():
         api_hash=config.get("TELEGRAM_API_HASH"),
     )
 
+    await app.start()
     loader = ModuleLoader(client=app, command_prefix=".")
     loader.download_module(
         "https://github.com/kinsoRick/tassistant-core.git", "tassistant_core"
     )
-    loader.load_module("tassistant_core")
+    loader.update_all()
     loader.load_all_modules()
 
-    await app.start()
-    await app.send_message("me", _("WELCOME_MESSAGE"))
     await idle()
 
 
 if __name__ == "__main__":
-    print("as")
     main()

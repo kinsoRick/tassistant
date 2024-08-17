@@ -1,3 +1,4 @@
+import asyncio
 import os
 import importlib.util
 import sys
@@ -96,7 +97,6 @@ class Module:
         """
         Loads handler modules from the 'handlers' directory and registers them.
         """
-        print(self.handlers)
         handlers_path = os.path.join(self.base_path, "handlers")
         handlers = load_directory_modules(handlers_path)
         for module_name, module in handlers.items():
@@ -126,7 +126,7 @@ class Module:
             except Exception as e:
                 logger.error(f"| {module_name} | Not Loaded due to error |\n{e} ")
 
-    def client_ready(self, client: Client) -> None:
+    async def client_ready(self, client: Client) -> None:
         """
         Prepares the module by loading locale, handlers, and services, and registers handlers.
 
@@ -254,9 +254,50 @@ class ModuleLoader(metaclass=SingletonMeta):
                     break
 
             if mod_instance:
-                mod_instance.client_ready(self.client)
+                asyncio.create_task(mod_instance.client_ready(self.client))
         except Exception as e:
             logger.error(f"Error loading module {module_name}\n {e}")
+
+    def update_all(self) -> None:
+        """
+        Checks for updates in all Git repositories, pulls changes if any, and reloads the modules.
+        """
+        for module_name in list(self.modules.keys()):
+            try:
+                self.update_module(module_name)
+            except git.exc.GitError as e:
+                logger.error(f"| {module_name} | {e}")
+                continue
+
+    def update_module(self, module_name):
+        if module_name not in self.modules.keys():
+            repo_path = os.path.join(self.modules_dir, module_name)
+        else:
+            module = self.modules[module_name]
+            repo_path = module.base_path
+
+        updated = False
+
+        if os.path.exists(os.path.join(repo_path, ".git")):
+            try:
+                repo = git.Repo(repo_path)
+                current = repo.head.commit
+
+                origin = repo.remotes.origin
+                origin.fetch()
+                origin.pull()
+
+                if current != origin.repo.head.commit:
+                    logger.info(f"| {module_name} | Updated successfully.")
+                    updated = True
+                else:
+                    logger.info(f"| {module_name} | No updates found.")
+            except git.exc.GitError as e:
+                logger.error(f"| {module_name} | Git error: {e}")
+
+        if updated:
+            self.unload_module(module_name)
+            self.load_modules(module_name)
 
     def load_modules(self, module_name: str) -> None:
         """
@@ -298,5 +339,7 @@ class ModuleLoader(metaclass=SingletonMeta):
         Loads all modules from the modules directory.
         """
         for folder_name in os.listdir(self.modules_dir):
-            if os.path.isdir(os.path.join(self.modules_dir, folder_name)):
+            module_path = os.path.join(self.modules_dir, folder_name)
+            if os.path.isdir(module_path):
+                self.update_module(folder_name)
                 self.load_modules(folder_name)

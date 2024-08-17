@@ -118,11 +118,6 @@ class I18n(metaclass=SingletonMeta):
         :param data: An optional dictionary of placeholder values to replace in the string.
         :return: The formatted localized string, or the name if not found.
         """
-        if not name.isupper():
-            logger.warning(
-                f"| Localization | use upper key name, provided value: {name}"
-            )
-
         is_module = ":" in name or "." in name
         module: Optional[str] = None
 
@@ -130,6 +125,10 @@ class I18n(metaclass=SingletonMeta):
             parts = name.split(":")
             module = parts[0]
             name = parts[1]
+            if not name.isupper():
+                logger.warning(
+                    f"| Localization | use upper key name, provided value: {name}"
+                )
 
         name = name.upper()
 
