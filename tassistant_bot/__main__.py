@@ -93,7 +93,7 @@ async def run_main():
     _ = I18n("ru").get
 
     if config.get("TELEGRAM_SESSION_STRING"):
-        app = Client("my_account", session_string=config.get("TELEGRAM_SESSION_STRING"))
+        app = Client("_user_", session_string=config.get("TELEGRAM_SESSION_STRING"))
     else:
         app = Client(
             name="my_account",

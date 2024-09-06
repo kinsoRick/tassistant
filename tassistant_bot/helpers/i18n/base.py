@@ -109,6 +109,13 @@ class I18n(metaclass=SingletonMeta):
         locales = get_locales(self._locale_dir)
         self.update_locales(locales)
 
+    def create_module_get(self, module_name: str):
+        def new_get_function(query, data: Optional[Dict[str, str]] = None):
+            search_query = f"{module_name}:{query}"
+            return self.get(search_query, data)
+
+        return new_get_function
+
     def get(self, name: str, data: Optional[Dict[str, str]] = None) -> str:
         """
         Retrieves a localized string for the given name and optionally replaces placeholders
@@ -118,7 +125,7 @@ class I18n(metaclass=SingletonMeta):
         :param data: An optional dictionary of placeholder values to replace in the string.
         :return: The formatted localized string, or the name if not found.
         """
-        is_module = ":" in name or "." in name
+        is_module = ":" in name
         module: Optional[str] = None
 
         if is_module:

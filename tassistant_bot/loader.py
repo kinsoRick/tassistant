@@ -5,6 +5,7 @@ import sys
 import inspect
 import git
 import re
+import subprocess
 
 from typing import Optional
 from logging import getLogger
@@ -210,6 +211,7 @@ class ModuleLoader(metaclass=SingletonMeta):
         :param repo_url: The URL of the GitHub repository.
         :param to_dir: Optional directory to clone the repository into. Defaults to the modules directory.
         """
+
         repo_name = extract_repo_name(repo_url)
         if not to_dir:
             to_dir = os.path.join(self.modules_dir, repo_name)
@@ -219,6 +221,16 @@ class ModuleLoader(metaclass=SingletonMeta):
             return
         try:
             git.Repo.clone_from(repo_url, to_dir)
+
+            requirements_path = os.path.join(to_dir, "requirements.txt")
+
+            if os.path.exists(requirements_path):
+                subprocess.check_call(
+                    [sys.executable, "-m", "pip", "install", "-r", requirements_path]
+                )
+                logger.info(
+                    f"| {repo_name} | Installed dependencies from requirements.txt"
+                )
             logger.info(f"| {repo_name} | Downloaded to {to_dir}")
         except git.exc.GitError as e:
             logger.error(f"| {repo_name}| {e}")
