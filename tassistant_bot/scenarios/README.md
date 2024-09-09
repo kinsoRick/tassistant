@@ -46,11 +46,11 @@ class ExampleScenario(BaseScenario):
 
     async def handle_join_member(self, client: Client, message: Message):
         for user in message.new_chat_members:
-            client.send_message(message.chat.id, f"Hello {username}"
+            client.send_message(message.chat.id, f"Hello {username}")
 
     async def handle_leave_member(self, client: Client, message: Message):
         username = message.left_chat_member.username
-        client.send_message(message.chat.id, f"Bye {username}"
+        client.send_message(message.chat.id, f"Bye {username}")
 
     async def configure(self, client: Client, message: Message) -> None:
         self.username = client.me.username
