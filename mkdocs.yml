@@ -1,4 +1,5 @@
 site_name: TAssistant docs
+site_url: https://kinsorick.github.io/tassistant
 theme:
   name: material
   palette:
