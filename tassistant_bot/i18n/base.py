@@ -1,62 +1,11 @@
 import os
-import json
-import re
 from typing import Dict, Optional
 from logging import getLogger
 
-from tassistant_bot.helpers import SingletonMeta
+from tassistant_bot.types import SingletonMeta
+from .process_files import get_locales
 
 logger = getLogger()
-
-
-def process_json_file(file_path: str) -> Dict:
-    """
-    Processes a JSON file and returns its data as a dictionary.
-
-    :param file_path: Path to the JSON file.
-    :return: Data from the JSON file as a dictionary.
-    """
-    with open(file_path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def process_txt_file(file_path: str) -> str:
-    """
-    Processes a text file and returns its content as a string.
-
-    :param file_path: Path to the text file.
-    :return: Content of the text file as a string.
-    """
-    with open(file_path, "r", encoding="utf-8") as f:
-        return f.read()
-
-
-def get_locales(locale_dir: str) -> Dict[str, Dict[str, str]]:
-    """
-    Loads locales from the specified directory.
-
-    Walks through all files in the directory and subdirectories. JSON files
-    are processed as dictionaries, and text files are processed as strings.
-
-    :param locale_dir: Path to the directory containing locale files.
-    :return: A dictionary where keys are directory names (name of language) and values are dictionaries of locales.
-    """
-    locales = {}
-    for root, dirs, files in os.walk(locale_dir):
-        for file in files:
-            dir_name = re.findall(r"[^\\/]+", root)[-1]
-            file_path = os.path.join(root, file)
-
-            if dir_name not in locales:
-                locales[dir_name] = {}
-
-            if file.endswith(".json"):
-                locales[dir_name].update(process_json_file(file_path))
-            elif file.endswith(".txt"):
-                file_name = file.replace(".txt", "").upper()
-                locales[dir_name][file_name] = process_txt_file(file_path)
-
-    return locales
 
 
 class I18n(metaclass=SingletonMeta):

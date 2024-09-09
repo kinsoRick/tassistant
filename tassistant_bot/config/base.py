@@ -1,20 +1,12 @@
 import os
-from typing import Optional, Dict, Type
+from typing import Optional, Dict
 from dotenv import dotenv_values, load_dotenv
+from logging import getLogger
+
+from tassistant_bot.types import SingletonMeta
 
 load_dotenv()
-
-
-class SingletonMeta(type):
-    _instances: Dict[Type["SingletonMeta"], "SingletonMeta"] = {}
-
-    def __call__(
-        cls: Type["SingletonMeta"], *args: tuple, **kwargs: dict
-    ) -> "SingletonMeta":
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
+logger = getLogger(__name__)
 
 
 class Config(metaclass=SingletonMeta):
@@ -22,8 +14,19 @@ class Config(metaclass=SingletonMeta):
         self._env_file = env_file
         self._config: Dict[str, str] = dotenv_values(env_file)
 
+        logger.debug(f"| Config | {self._env_file} | {self._config} |")
+
     def get(self, key: str, default: Optional[str] = None) -> Optional[str]:
-        return self._config.get(key, default)
+        """
+        Gets a value from the config file.
+
+        :param key: The key to set.
+        :param default: The value to return if the key is not found.
+        :return: The value from the config file.
+        """
+        data = self._config.get(key, default)
+        logger.debug(f"| config | get | {data} |")
+        return data
 
     def set(self, key: str, value: str) -> None:
         """
@@ -33,7 +36,6 @@ class Config(metaclass=SingletonMeta):
         :param value: The value to set.
         """
         self._config[key] = value
-        self._update_env_file()
 
     def update(self, updates: Dict[str, str]) -> None:
         """
@@ -42,9 +44,8 @@ class Config(metaclass=SingletonMeta):
         :param updates: A dictionary containing key-value pairs to update.
         """
         self._config.update(updates)
-        self._update_env_file()
 
-    def _update_env_file(self) -> None:
+    def update_env_file(self) -> None:
         """
         Writes the current configuration back to the .env file.
         """

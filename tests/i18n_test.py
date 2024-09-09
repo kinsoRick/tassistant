@@ -1,11 +1,7 @@
 import unittest
 from unittest.mock import patch, mock_open
 
-from tassistant_bot.helpers import (
-    process_json_file,
-    process_txt_file,
-    I18n,
-)
+from tassistant_bot.i18n import process_json_file, process_txt_file, I18n
 
 
 class TestI18nFunctions(unittest.TestCase):
@@ -20,6 +16,7 @@ class TestI18nFunctions(unittest.TestCase):
     def test_process_txt_file(self, mock_file):
         file_path = "/some/path/file.txt"
         result = process_txt_file(file_path)
+        print(f"result: {result}")
         self.assertEqual(result, "some text content")
         mock_file.assert_called_once_with(file_path, "r", encoding="utf-8")
 

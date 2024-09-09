@@ -12,8 +12,8 @@ from logging import getLogger
 
 from pyrogram import Client
 
-from tassistant_bot.helpers import I18n, SingletonMeta
-from tassistant_bot.helpers.i18n import get_locales
+from tassistant_bot.types import SingletonMeta
+from tassistant_bot.i18n import get_locales, I18n
 
 logger = getLogger(__name__)
 _ = I18n("ru")

@@ -8,7 +8,8 @@ import click
 from pyrogram import Client, idle
 import asyncio
 
-from tassistant_bot.helpers import config, I18n
+from tassistant_bot.i18n import I18n
+from tassistant_bot.config import config
 from tassistant_bot.loader import ModuleLoader
 
 formatter = colorlog.ColoredFormatter(
