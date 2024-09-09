@@ -10,10 +10,10 @@ theme:
 extra:
   alternate:
     - name: English
-      link: /en/
+      link: /tassistant/en/
       lang: en
     - name: Русский
-      link: /ru/
+      link: /tassistant/ru/
       lang: ru
 
 
